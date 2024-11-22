@@ -1,22 +1,22 @@
-const Notification = require("../models/NotificationModel");
-const User = require("../models/userModel");
-const asyncHandler = require("express-async-handler");
+const Notification = require('../models/notificationModel');
+const User = require('../models/userModel');
+const asyncHandler = require('express-async-handler');
 
 const sendBulkNotification = asyncHandler(async (req, res) => {
   const { title, message } = req.body;
   const currentUser = req.user;
 
-  if (currentUser.role !== "admin")
+  if (currentUser.role !== 'admin')
     return res
       .status(403)
-      .json({ message: "Yalnızca adminler bildirim gönderebilir." });
+      .json({ message: 'Yalnızca adminler bildirim gönderebilir.' });
 
   if (!message)
     return res
       .status(400)
-      .json({ message: "Lütfen bir bildirim mesajı girin." });
+      .json({ message: 'Lütfen bir bildirim mesajı girin.' });
 
-  const users = await User.find({ role: "user" });
+  const users = await User.find({ role: 'user' });
 
   const notifications = users.map((user) => {
     return new Notification({
@@ -30,7 +30,7 @@ const sendBulkNotification = asyncHandler(async (req, res) => {
 
   await Notification.insertMany(notifications);
 
-  return res.status(200).json({ message: "Bildirimler başarıyla gönderildi." });
+  return res.status(200).json({ message: 'Bildirimler başarıyla gönderildi.' });
 });
 
 const getNotifications = asyncHandler(async (req, res) => {
@@ -40,10 +40,10 @@ const getNotifications = asyncHandler(async (req, res) => {
     const notifications = await Notification.find({ userId: userId });
     return res.status(200).json(notifications);
   } catch (error) {
-    console.error("Bildirimler alınırken hata:", error);
+    console.error('Bildirimler alınırken hata:', error);
     return res
       .status(500)
-      .json({ message: "Bildirimler alınırken bir hata oluştu." });
+      .json({ message: 'Bildirimler alınırken bir hata oluştu.' });
   }
 });
 
@@ -58,39 +58,38 @@ const markNotificationAsRead = asyncHandler(async (req, res) => {
     });
 
     if (!notification) {
-      return res.status(404).json({ message: "Bildirim bulunamadı." });
+      return res.status(404).json({ message: 'Bildirim bulunamadı.' });
     }
 
     notification.read = true;
     await notification.save();
 
-    return res.status(200).json({ message: "Bildirim başarıyla okundu." });
+    return res.status(200).json({ message: 'Bildirim başarıyla okundu.' });
   } catch (error) {
-    console.error("Bildirim okuma hatası:", error);
-    return res.status(500).json({ message: "Bir hata oluştu." });
+    console.error('Bildirim okuma hatası:', error);
+    return res.status(500).json({ message: 'Bir hata oluştu.' });
   }
 });
 
 const markAllNotificationsAsRead = asyncHandler(async (req, res) => {
-  const userId = req.user._id; // Oturum açmış kullanıcı ID'si
+  const userId = req.user._id;
 
   try {
-    // Kullanıcıya ait tüm bildirimleri güncelle
     const result = await Notification.updateMany(
-      { userId: userId, read: false }, // Okunmamış bildirimler
-      { $set: { read: true } } // Okundu olarak işaretle
+      { userId: userId, read: false },
+      { $set: { read: true } }
     );
 
     if (result.nModified === 0) {
-      return res.status(404).json({ message: "Okunacak bildirim yok." });
+      return res.status(404).json({ message: 'Okunacak bildirim yok.' });
     }
 
     return res
       .status(200)
-      .json({ message: "Tüm bildirimler başarıyla okundu." });
+      .json({ message: 'Tüm bildirimler başarıyla okundu.' });
   } catch (error) {
-    console.error("Bildirim okuma hatası:", error);
-    return res.status(500).json({ message: "Bir hata oluştu." });
+    console.error('Bildirim okuma hatası:', error);
+    return res.status(500).json({ message: 'Bir hata oluştu.' });
   }
 });
 
