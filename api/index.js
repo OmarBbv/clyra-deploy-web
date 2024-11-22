@@ -30,6 +30,8 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
+app.use(cors(corsOptions));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'secretKey',
