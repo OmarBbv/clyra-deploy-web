@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "typescript-cookie";
 
-const base_url = "http://localhost:9000/api";
+const base_url = "https://clyra-web.onrender.com/api";
 
 const BASE_API = axios.create({
   baseURL: base_url,
