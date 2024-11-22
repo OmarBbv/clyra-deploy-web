@@ -8,9 +8,11 @@ interface UserProps {
 const UserAvatar = ({ img, name='Un' }: UserProps) => {
     return (
         <UIAvatar className="cursor-pointer">
-            <AvatarImage src={img && img} />
-            <AvatarFallback className="flex items-center justify-center">{name?.toUpperCase().slice(0, 2) || 'AN'}</AvatarFallback>
-        </UIAvatar>
+      <AvatarImage className="object-cover" src={img && img} />
+      <AvatarFallback className="flex items-center justify-center">
+        {name?.toUpperCase().slice(0, 2) || 'AN'}
+      </AvatarFallback>
+    </UIAvatar>
     );
 };
 
