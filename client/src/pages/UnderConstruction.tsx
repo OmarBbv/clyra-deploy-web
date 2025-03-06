@@ -1,24 +1,24 @@
-import React, { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Loader2 } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Link } from 'react-router-dom'
-import PageMeta from '@/components/PageMeta'
+import React, { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import PageMeta from '@/components/PageMeta';
 
 function UnderConstruction() {
-  const dotsRef = useRef<HTMLSpanElement>(null)
+  const dotsRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (dotsRef.current) {
-      dotsRef.current.classList.add('animate-dots')
+      dotsRef.current.classList.add('animate-dots');
     }
-  }, [])
+  }, []);
 
   return (
     <div className="min-h-[600px] flex items-center justify-center p-4">
-      <PageMeta title='Yapım Aşamasında' />
-      <Card className="w-full max-w-md">
+      <PageMeta title="Yapım Aşamasında" />
+      <Card className="w-full max-w-md border-none">
         <CardContent className="flex flex-col items-center space-y-6 p-6">
           <motion.div
             initial={{ scale: 0 }}
@@ -61,15 +61,13 @@ function UnderConstruction() {
             transition={{ delay: 0.8 }}
           >
             <Link to="/">
-              <Button variant="secondary">
-                Ana Sayfaya Dön
-              </Button>
+              <Button variant="secondary">Ana Sayfaya Dön</Button>
             </Link>
           </motion.div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default React.memo(UnderConstruction)
+export default React.memo(UnderConstruction);
